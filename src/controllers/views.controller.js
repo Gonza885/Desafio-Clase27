@@ -1,5 +1,5 @@
-import { productModel } from "../dao/mongo/models/product.model.js";
-import { cartModel } from "../dao/mongo/models/cart.model.js";
+import { productModel } from "../dao/models/product.model.js";
+import { cartModel } from "../dao/models/cart.model.js";
 import userCart from "../utils/cart.utils.js";
 
 export const home = async (req, res) => {

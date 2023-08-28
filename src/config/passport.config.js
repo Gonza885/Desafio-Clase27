@@ -1,6 +1,6 @@
-import { userModel } from "../dao/mongo/models/user.model.js";
-import { adminModel } from "../dao/mongo/models/admin.model.js";
+import { userModel } from "../dao/models/user.model.js";
 import { createHash, isValidPassword } from "../utils/hash.utils.js";
+import { adminModel } from "../dao/models/admin.model.js";
 import config from "../config/enviroment.config.js";
 import passport from "passport";
 import local from "passport-local";
@@ -46,7 +46,7 @@ const initializePassport = () => {
 
           return done(null, user);
         } catch (err) {
-          return done("Error:", err);
+          return done(err);
         }
       }
     )

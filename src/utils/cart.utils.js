@@ -1,4 +1,4 @@
-import { cartModel } from "../dao/mongo/models/cart.model.js";
+import { cartModel } from "../dao/models/cart.model.js";
 
 export default async function userCart(req, res) {
   let { cart } = req.signedCookies;

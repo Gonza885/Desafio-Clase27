@@ -1,7 +1,19 @@
-<div class='home-container'>
-	<form method='post' action='/api/sessions/logout'>
-		<p>Welcome <strong>{{user.email}}</strong></p>
-		<p>Your role is <strong>{{user.role}}</strong></p>
-		<input type='submit' value='Logout' class='home-button' />
+<div class='login-container'>
+
+	<p>Login</p>
+	<a href='/register'>Sign up</a>
+	<a href='/api/sessions/github'>Github</a>
+
+	<form class='login-form'>
+		<label>Email</label>
+		<input type='email' name='email' required />
+
+		<label>Password</label>
+		<input type='password' name='password' required />
+
+		<input type='submit' value='Send' class='login-button' />
 	</form>
+
 </div>
+
+<script src='/js/login.js'></script>
