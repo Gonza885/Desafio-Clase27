@@ -1,5 +1,14 @@
 import { productModel } from "../dao/models/product.model.js";
 
+export const getProductById = async (id) => {
+  try {
+    const result = await productModel.findById(id);
+    return result;
+  } catch (err) {
+    throw new Error(`Error fetching product with ID ${id}: ${err.message}`);
+  }
+};
+
 export const products = async (req, res) => {
   try {
     const result = await productModel.find();
