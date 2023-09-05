@@ -1,20 +1,20 @@
 import { Router } from "express";
 import {
-  getProductById,
-  products,
   product,
-  createProduct,
-  updateProduct,
-  deleteProduct,
+  products,
+  insertProduct,
+  editProduct,
+  eraseProduct,
 } from "../controllers/products.controller.js";
+
+import roleAuth from "../middlewares/role.middleware.js";
 
 const router = Router();
 
 router.get("/", products);
-router.get("/:id", product);
-router.get("/:id", getProductById);
-router.post("/", createProduct);
-router.put("/:id", updateProduct);
-router.delete("/:id", deleteProduct);
+router.get("/:pid", product);
+router.post("/", roleAuth("admin"), insertProduct);
+router.put("/:pid", roleAuth("admin"), editProduct);
+router.delete("/:pid", roleAuth("admin"), eraseProduct);
 
 export default router;

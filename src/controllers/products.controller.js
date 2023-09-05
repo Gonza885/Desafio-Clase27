@@ -1,120 +1,61 @@
-import { productModel } from "../dao/models/product.model.js";
-
-export const getProductById = async (id) => {
-  try {
-    const result = await productModel.findById(id);
-    return result;
-  } catch (err) {
-    throw new Error(`Error fetching product with ID ${id}: ${err.message}`);
-  }
-};
+import { productsRepository } from "../repositories/repository.js";
 
 export const products = async (req, res) => {
   try {
-    const result = await productModel.find();
-    return res.status(200).json({ status: "success", payload: result });
+    const payload = await productsRepository.getProducts();
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", products: payload });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: "error", error: err.message });
   }
 };
 
 export const product = async (req, res) => {
   try {
-    const { id } = req.params;
-    const result = await productModel.findById(id);
-
-    if (!result) {
-      return res.status(400).send(`There's no product with ID ${id}`);
-    }
-
-    return res.status(200).json({ status: "success", payload: result });
+    const { pid } = req.params;
+    const payload = await productsRepository.getProduct(pid);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", product: payload });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: "error", error: err.message });
   }
 };
 
-export const createProduct = async (req, res) => {
+export const insertProduct = async (req, res) => {
   try {
-    const { title, description, code, price, stock, category } = req.body;
-
-    if (
-      !title ||
-      !description ||
-      !code ||
-      !price ||
-      !stock ||
-      !category ||
-      !price
-    ) {
-      return res
-        .status(400)
-        .send(`Please complete all the fields to create a product`);
-    }
-
-    const result = await productModel.create({
-      title,
-      description,
-      code: code.replace(/\s/g, "").toLowerCase(),
-      price,
-      stock,
-      category: category.toLowerCase(),
-    });
-
-    return res.status(200).json({ status: "success", payload: result });
+    const newProduct = req.body;
+    const payload = await productsRepository.createProduct(newProduct);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", product: payload });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: "error", error: err.message });
   }
 };
 
-export const updateProduct = async (req, res) => {
+export const editProduct = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { title, description, code, price, stock, category } = req.body;
-    const product = await productModel.findById(id);
-
-    if (!product) {
-      return res.status(400).send(`There's no product with ID ${id}`);
-    }
-
-    if (
-      !title ||
-      !description ||
-      !code ||
-      !price ||
-      !stock ||
-      !category ||
-      !price
-    ) {
-      return res
-        .status(400)
-        .send(`Please complete all the fields to update a product`);
-    }
-
-    const newproduct = {
-      title,
-      description,
-      code: code.replace(/\s/g, "").toLowerCase(),
-      price,
-      stock,
-      category: category.toLowerCase(),
-    };
-    await productModel.updateOne({ _id: id }, newproduct);
-
-    const result = await productModel.findById(id);
-    return res.status(200).json({ status: "success", payload: result });
+    const { pid } = req.params;
+    const newProduct = req.body;
+    const payload = await productsRepository.updateProduct(pid, newProduct);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", product: payload });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: "error", error: err.message });
   }
 };
 
-export const deleteProduct = async (req, res) => {
+export const eraseProduct = async (req, res) => {
   try {
-    const { id } = req.params;
-    await productModel.deleteOne({ _id: id });
-
-    const result = await productModel.find();
-    return res.status(200).json({ status: "success", payload: result });
+    const { pid } = req.params;
+    const payload = await productsRepository.deleteProduct(pid);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", products: payload });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: "error", error: err.message });
   }
 };

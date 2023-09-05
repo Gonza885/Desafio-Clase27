@@ -8,9 +8,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  age: Number,
   password: String,
-  cart: [{ type: mongoose.Schema.Types.String, ref: "Carts" }],
   role: {
     type: String,
     default: "user",

@@ -1,87 +1,108 @@
-// En controllers/cart.controller.js
-import * as cartService from "../services/cart.service.js";
+import { cartsRepository } from "../repositories/repository.js";
 
-export const getCarts = async (req, res) => {
+export const carts = async (req, res) => {
   try {
-    const result = await cartService.getCarts();
-    return res.status(200).json({ status: "success", payload: result });
+    const payload = await cartsRepository.getCarts();
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", carts: payload });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: "error", error: err.message });
   }
 };
 
-export const getCartById = async (req, res) => {
+export const cart = async (req, res) => {
   try {
-    const { id } = req.params;
-    const result = await cartService.getCartById(id);
-
-    if (!result) {
-      return res.status(400).send(`There's no cart with ID ${id}`);
-    }
-
-    return res.status(200).json({ status: "success", payload: result });
+    const { cid } = req.params;
+    const payload = await cartsRepository.getCart(cid);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", cart: payload });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: "error", error: err.message });
   }
 };
 
-export const createCart = async (req, res) => {
+export const insertCart = async (req, res) => {
   try {
-    const result = await cartService.createCart();
-    return res.status(200).json({ status: "success", payload: result });
+    const payload = await cartsRepository.createCart();
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", cart: payload });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: "error", error: err.message });
   }
 };
 
-export const addProductToCart = async (req, res) => {
+export const insertProduct = async (req, res) => {
   try {
     const { cid, pid } = req.params;
-    const result = await cartService.addProductToCart(cid, pid);
-    return res.status(200).json({ status: "success", payload: result });
+    const payload = await cartsRepository.createProduct(cid, pid);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", cart: payload });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: "error", error: err.message });
   }
 };
 
-export const updateCart = async (req, res) => {
+export const editCart = async (req, res) => {
   try {
     const { cid } = req.params;
     const newCart = req.body;
-    const result = await cartService.updateCart(cid, newCart);
-    return res.status(200).json({ status: "success", payload: result });
+    const payload = await cartsRepository.updateCart(cid, newCart);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", cart: payload });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: "error", error: err.message });
   }
 };
 
-export const updateProductInCart = async (req, res) => {
+export const editProduct = async (req, res) => {
   try {
     const { cid, pid } = req.params;
-    const newQuantity = req.body.quantity;
-    const result = await cartService.updateProductInCart(cid, pid, newQuantity);
-    return res.status(200).json({ status: "success", payload: result });
+    const { quantity } = req.body;
+    const payload = await cartsRepository.updateProduct(cid, pid, quantity);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", cart: payload });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: "error", error: err.message });
   }
 };
 
-export const deleteCart = async (req, res) => {
+export const clearCart = async (req, res) => {
   try {
-    const { id } = req.params;
-    const result = await cartService.deleteCart(id);
-    return res.status(200).json({ status: "success", payload: result });
+    const { cid } = req.params;
+    const payload = await cartsRepository.deleteCart(cid);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", cart: payload });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: "error", error: err.message });
   }
 };
 
-export const deleteProductFromCart = async (req, res) => {
+export const clearProduct = async (req, res) => {
   try {
     const { cid, pid } = req.params;
-    const result = await cartService.deleteProductFromCart(cid, pid);
-    return res.status(200).json({ status: "success", payload: result });
+    const payload = await cartsRepository.deleteProduct(cid, pid);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", cart: payload });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: "error", error: err.message });
+  }
+};
+
+export const purchase = async (req, res) => {
+  try {
+    const payload = await cartsRepository.purchaseCart(req, res);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).json({ status: "success", cart: payload });
+  } catch (err) {
+    return res.status(500).json({ status: "error", error: err.message });
   }
 };

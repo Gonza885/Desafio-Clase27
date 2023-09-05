@@ -14,12 +14,12 @@ registerForm.addEventListener("submit", async (event) => {
     body: JSON.stringify(obj),
   })
     .then((res) => {
-      if (res.status !== 200) {
-        alert(`Invalid credentials`);
-      } else {
-        alert(`Created`);
-        window.location.replace("/");
-      }
+      if (res.status !== 200) return res.text();
+      return res.json();
+    })
+    .then((payload) => {
+      if (typeof payload == "string") return alert(payload);
+      return window.location.replace("/");
     })
     .catch((err) => {
       return `Catch error: ${err}`;

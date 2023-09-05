@@ -8,8 +8,10 @@ productsForm.forEach((productForm) => {
     fetch(`/api/carts/${cart}/product/${product}`, {
       method: "POST",
     })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err))
-      .finally(alert("Added"));
+      .then((res) => {
+        if (res.status !== 200) return;
+        alert("Added");
+      })
+      .catch((err) => console.log(err));
   });
 });
