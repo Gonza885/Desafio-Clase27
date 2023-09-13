@@ -68,9 +68,9 @@ const initializePassport = () => {
     "github",
     new GitHubStrategy(
       {
-        clientID: "Iv1.fcc7092cab00b5f6",
-        clientSecret: "89f5c715c5b580b3cbc3fe704bce775ef750d731",
-        callbackURL: "http://localhost:8080/api/sessions/github/callback",
+        clientID: githubClientId,
+        clientSecret: githubClientSecret,
+        callbackURL: githubCallbackUrl,
       },
       async (accesToken, refreshToken, profile, done) => {
         try {

@@ -16,8 +16,8 @@ import initializePassport from "./config/passport.config.js";
 const mongoUrl = config.MONGO_URL;
 const mongoSessionSecret = config.MONGO_URL;
 const cookieSecret = config.COOKIE_SECRET;
-const PORT = process.env.PORT || 8080;
-const HOST = process.env.HOST || "localhost";
+const PORT = config.PORT;
+const HOST = config.HOST;
 
 const app = express();
 initializePassport();
