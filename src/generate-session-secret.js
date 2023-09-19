@@ -7,3 +7,7 @@ fs.writeFileSync(".env", `MONGO_SESSION_SECRET=${sessionSecret}\n`, {
   flag: "a",
 });
 console.log("La cadena secreta se ha generado y agregado a tu archivo .env.");
+
+const cookieSecret = crypto.randomBytes(32).toString("hex");
+
+console.log("COOKIE_SECRET:", cookieSecret);

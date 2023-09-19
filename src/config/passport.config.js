@@ -1,6 +1,6 @@
 import { userModel } from "../dao/mongo/models/user.model.js";
-import { adminModel } from "../dao/mongo/models/admin.model.js";
 import { hashPassword, isValidPassword } from "../utils/hash.utils.js";
+import { adminModel } from "../dao/mongo/models/admin.model.js";
 import config from "../config/enviroment.config.js";
 import passport from "passport";
 import local from "passport-local";
@@ -102,12 +102,3 @@ const initializePassport = () => {
 };
 
 export default initializePassport;
-
-/* passport.use(
-    "github",
-    new GitHubStrategy(
-      {
-        clientID: "Iv1.fcc7092cab00b5f6",
-        clientSecret: "a12487db78c1e5613342ea78026a3a5d0e5d3792",
-        callbackURL: "http://localhost:8080/api/sessions/github/callback",
-      }, */

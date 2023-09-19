@@ -4,6 +4,7 @@ import { ticketModel } from "./models/ticket.model.js";
 import { getAmount } from "./../../utils/functions.utils.js";
 import UserDTO from "../../dto/user.dto.js";
 import sendEmail from "../../utils/email.utils.js";
+/* import logger from "../../utils/logger.util.js"; */
 
 class CartsMongoDAO {
   constructor() {}

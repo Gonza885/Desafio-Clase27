@@ -44,7 +44,7 @@ class SessionsMemoryDAO {
         return `You can't create an admin account.`;
 
       const user = users.find((user) => user.email == email);
-      if (user) return `Email already exist.`;
+      if (user) return `Email already exists.`;
 
       const newUser = {
         first_name,

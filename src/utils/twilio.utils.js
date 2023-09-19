@@ -1,5 +1,6 @@
 import twilio from "twilio";
 import config from "../config/environment.config.js";
+import logger from "./logger.util.js";
 
 const ACCOUNT_SID = config.ACCOUNT_SID;
 const AUTH_TOKEN = config.AUTH_TOKEN;
@@ -12,5 +13,5 @@ try {
     to: "+541133923399",
   });
 } catch (err) {
-  console.log("Catch error:", err);
+  logger.error(`Catch error: ${err}`);
 }

@@ -1,3 +1,4 @@
+import logger from "../../utils/logger.util.js";
 import productDAO from "./products.memory.js";
 import { faker } from "@faker-js/faker/locale/es";
 
@@ -83,7 +84,7 @@ class CartsMemoryDAO {
 
       newCart.forEach((product) => {
         if (product.quantity < 1) {
-          console.log(
+          logger.warn(
             `Product '${product._id}' has an invalid value of quantity. Receive '${product.quantity}', new value was setted on '1'`
           );
           product.quantity = 1;
@@ -93,7 +94,7 @@ class CartsMemoryDAO {
 
         if (existProduct && existProduct.stock < product.quantity) {
           product.quantity = existProduct.stock;
-          console.log(
+          logger.warn(
             `Insuficient stock for product '${product._id}', new quantity setted on max stock: '${existProduct.stock}'`
           );
         }
@@ -138,7 +139,7 @@ class CartsMemoryDAO {
 
       if (newQuantity > product.stock) {
         newQuantity = product.stock;
-        console.log(
+        logger.warn(
           `Insuficient stock, new quantity setted on max stock: '${newQuantity}'`
         );
       }

@@ -1,5 +1,5 @@
 import { createTransport } from "nodemailer";
-import config from "../config/environment.config.js";
+import config from "../config/enviroment.config.js";
 
 const EMAIL = config.EMAIL;
 const EMAIL_PASSWORD = config.EMAIL_PASSWORD;
