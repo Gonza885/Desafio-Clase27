@@ -178,6 +178,22 @@ class ViewsMongoDAO {
       return `${error}`;
     }
   }
+
+  async getRestoreDao(req, res) {
+    try {
+      let { restoreCookie } = req.signedCookies;
+      if (!restoreCookie) return res.redirect("/");
+      const { user } = req.session;
+      const payload = {
+        user,
+        style: "restore.css",
+        documentTitle: "Restore",
+      };
+      return payload;
+    } catch (error) {
+      return `${error}`;
+    }
+  }
 }
 
 const MongoDAO = new ViewsMongoDAO();

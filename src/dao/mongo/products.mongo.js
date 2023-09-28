@@ -47,10 +47,17 @@ class ProductsMongoDAO {
     }
   }
 
-  async deleteProductDao(pid) {
+  async deleteProductDao(req, res, pid) {
     try {
+      const { user } = req.session;
       const product = await productModel.findById(pid);
       if (!product) return `No product found with ID '${pid}'.`;
+      console.log("user.role", user.role);
+      console.log("user.email", user.email);
+      console.log("product.owner", product.owner);
+
+      if (user.role == "premium" && user.email != product.owner)
+        return `Can't delete product from other owner.`;
 
       await productModel.deleteOne({ _id: pid });
       const productDeleted = await productModel.findById(pid);
@@ -63,8 +70,9 @@ class ProductsMongoDAO {
     }
   }
 
-  async generateProductsDao() {
+  async generateProductsDao(req, res) {
     try {
+      const { user } = req.session;
       for (let i = 0; i < 100; i++) {
         const product = {
           title: faker.commerce.productName(),
@@ -73,6 +81,7 @@ class ProductsMongoDAO {
           price: faker.commerce.price(),
           stock: faker.number.int({ min: 0, max: 100 }),
           category: faker.commerce.product(),
+          owner: user.email,
         };
         const newProduct = new ProductDTO(product);
         await productModel.create(newProduct);

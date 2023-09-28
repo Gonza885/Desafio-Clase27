@@ -47,7 +47,7 @@ class CartsMemoryDAO {
     }
   }
 
-  createProductDao(cid, pid) {
+  createProductDao(req, res, cid, pid) {
     try {
       const carts = this.data;
       const cart = carts.find((cart) => cart._id == cid);
@@ -74,7 +74,7 @@ class CartsMemoryDAO {
     }
   }
 
-  updateCartDao(cid, newCart) {
+  updateCartDao(req, res, cid, newCart) {
     try {
       const carts = this.data;
       const cart = carts.find((cart) => cart._id == cid);

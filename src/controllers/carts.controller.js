@@ -37,7 +37,7 @@ export const insertCart = async (req, res) => {
 export const insertProduct = async (req, res) => {
   try {
     const { cid, pid } = req.params;
-    const payload = await cartsRepository.createProduct(cid, pid);
+    const payload = await cartsRepository.createProduct(req, res, cid, pid);
     if (typeof payload == "string")
       return res.status(404).json({ status: "error", message: payload });
     return res.status(200).json({ status: "success", cart: payload });
@@ -50,7 +50,7 @@ export const editCart = async (req, res) => {
   try {
     const { cid } = req.params;
     const newCart = req.body;
-    const payload = await cartsRepository.updateCart(cid, newCart);
+    const payload = await cartsRepository.updateCart(req, res, cid, newCart);
     if (typeof payload == "string")
       return res.status(404).json({ status: "error", message: payload });
     return res.status(200).json({ status: "success", cart: payload });

@@ -65,7 +65,7 @@ class ProductsMemoryDAO {
     }
   }
 
-  deleteProductDao(pid) {
+  deleteProductDao(req, res, pid) {
     try {
       const products = this.data;
       const product = products.find((item) => item._id == pid);
@@ -78,22 +78,8 @@ class ProductsMemoryDAO {
     }
   }
 
-  async generateProductsDao() {
+  async generateProductsDao(req, res) {
     try {
-      const products = [];
-      for (let i = 0; i < 100; i++) {
-        const newProduct = {
-          _id: faker.database.mongodbObjectId(),
-          title: faker.commerce.productName(),
-          description: faker.lorem.sentence(),
-          code: faker.datatype.uuid(),
-          price: faker.commerce.price(),
-          stock: faker.datatype.number(),
-          category: faker.commerce.department(),
-        };
-        products.push(newProduct);
-      }
-      this.data = products;
       return products;
     } catch (error) {
       return `${error}`;

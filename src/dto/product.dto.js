@@ -7,6 +7,7 @@ class ProductDTO {
     this.status = true;
     this.stock = product.stock;
     this.category = product.category.toLowerCase();
+    this.owner = product.owner || "adminCoder@coder.com";
   }
 }
 

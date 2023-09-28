@@ -20,40 +20,46 @@ const cookieSecret = config.COOKIE_SECRET;
 const PORT = config.PORT;
 const HOST = config.HOST;
 
-const app = express();
-initializePassport();
+const initializeApp = () => {
+  const app = express();
+  initializePassport();
 
-app.use(
-  session({
-    store: MongoStore.create({ mongoUrl }),
-    secret: mongoSessionSecret,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-app.use(
-  compression({
-    brotli: {
-      enable: true,
-      zlib: {},
-    },
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-app.engine("handlebars", handlebars.engine());
-app.set("views", __dirname + "/views");
-app.set("view engine", "handlebars");
-app.use(express.static(__dirname + "/public"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser(cookieSecret));
-app.use(morgan("dev"));
-app.use(cors());
+  logger.info("Iniciando la aplicación");
 
-const httpServer = app.listen(PORT, HOST, () => {
-  logger.info(`Server up on http://${HOST}:${PORT}`);
-});
-setupSocket(httpServer);
+  app.use(
+    session({
+      store: MongoStore.create({ mongoUrl }),
+      secret: mongoSessionSecret,
+      resave: false,
+      saveUninitialized: false,
+    })
+  );
+  app.use(
+    compression({
+      brotli: {
+        enable: true,
+        zlib: {},
+      },
+    })
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.engine("handlebars", handlebars.engine());
+  app.set("views", __dirname + "/views");
+  app.set("view engine", "handlebars");
+  app.use(express.static(__dirname + "/public"));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(cookieParser(cookieSecret));
+  app.use(morgan("dev"));
+  app.use(cors());
 
-router(app);
+  const httpServer = app.listen(PORT, HOST, () => {
+    logger.info(`Server up on http://${HOST}:${PORT}`);
+  });
+  setupSocket(httpServer);
+
+  router(app);
+};
+
+initializeApp();

@@ -168,6 +168,13 @@ class ViewsMemoryDAO {
       return `${error}`;
     }
   }
+
+  async getRestoreDao(req, res) {
+    try {
+    } catch (error) {
+      return `${error}`;
+    }
+  }
 }
 
 const MemoryDAO = new ViewsMemoryDAO();

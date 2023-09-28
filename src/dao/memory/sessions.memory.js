@@ -44,7 +44,7 @@ class SessionsMemoryDAO {
         return `You can't create an admin account.`;
 
       const user = users.find((user) => user.email == email);
-      if (user) return `Email already exists.`;
+      if (user) return `Email already exist.`;
 
       const newUser = {
         first_name,
@@ -79,6 +79,34 @@ class SessionsMemoryDAO {
   getLogoutDao(req, res) {
     try {
       return req.session.destroy();
+    } catch (error) {
+      return `${error}`;
+    }
+  }
+
+  getRestoreDao(req, res) {
+    try {
+    } catch (error) {
+      return `${error}`;
+    }
+  }
+
+  getRestoreCallbackDao(req, res) {
+    try {
+    } catch (error) {
+      return `${error}`;
+    }
+  }
+
+  getPremiumDao(req, res) {
+    try {
+    } catch (error) {
+      return `${error}`;
+    }
+  }
+
+  getUserDao(req, res) {
+    try {
     } catch (error) {
       return `${error}`;
     }

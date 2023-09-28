@@ -2,11 +2,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const environment = process.env.NODE_ENV;
+let enviroment = process.env.NODE_ENV;
+if (!enviroment) enviroment = "development";
 
 let persistence;
 
-if (environment && environment.trim() === "local") {
+if (enviroment.trim() === "local") {
   persistence = "memory";
 } else {
   persistence = "mongo";

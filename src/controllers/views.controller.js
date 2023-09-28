@@ -90,3 +90,16 @@ export const cart = async (req, res) => {
     return res.status(500).json({ status: "error", error: err.message });
   }
 };
+
+export const restore = async (req, res) => {
+  try {
+    const { user } = req.session;
+    if (!user) return res.redirect("/");
+    const payload = await viewsRepository.getRestore(req, res);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.status(200).render("restore", payload);
+  } catch (err) {
+    return res.status(500).json({ status: "error", error: err.message });
+  }
+};

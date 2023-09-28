@@ -1,5 +1,5 @@
 import twilio from "twilio";
-import config from "../config/environment.config.js";
+import config from "../config/enviroment.config.js";
 import logger from "./logger.util.js";
 
 const ACCOUNT_SID = config.ACCOUNT_SID;

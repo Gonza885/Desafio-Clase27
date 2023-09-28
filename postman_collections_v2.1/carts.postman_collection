@@ -1,0 +1,222 @@
+{
+	"info": {
+		"_postman_id": "9db1d92f-872b-4486-a66c-a2a14d3ed954",
+		"name": "Carts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27426307"
+	},
+	"item": [
+		{
+			"name": "Carts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/carts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cart by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/carts/650a05729c310a671b236743",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts",
+						"650a05729c310a671b236743"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create cart",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/carts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add product by ID",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/carts/650a05729c310a671b236743/product/650a00335d59e537f92472ff",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts",
+						"650a05729c310a671b236743",
+						"product",
+						"650a00335d59e537f92472ff"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update cart",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"_id\": \"650a07de6c814c5f9f3cdee5\",\r\n        \"quantity\": 2\r\n    },\r\n    {\r\n        \"_id\": \"650a00335d59e537f92472ff\",\r\n        \"quantity\": 2\r\n    },\r\n    {\r\n        \"_id\": \"650a00425d59e537f92473bb\",\r\n        \"quantity\": 3\r\n    },\r\n    {\r\n        \"_id\": \"650a05699c310a671b236741\",\r\n        \"quantity\": 3\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/carts/650a05729c310a671b236743",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts",
+						"650a05729c310a671b236743"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update quantity by ID",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quantity\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/carts/64f54ed0205174d2c99fc8d0/product/64f54ec0205174d2c99fc8cb",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts",
+						"64f54ed0205174d2c99fc8d0",
+						"product",
+						"64f54ec0205174d2c99fc8cb"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Empty cart",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/carts/650a05729c310a671b236743",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts",
+						"650a05729c310a671b236743"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete product by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/carts/db6faafa59e1d9abacacea9b/product/da387dd66b46aeae7e3f1419",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts",
+						"db6faafa59e1d9abacacea9b",
+						"product",
+						"da387dd66b46aeae7e3f1419"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Purchase",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/carts/64f5552c65c54a22b8e0bf0c/purchase",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts",
+						"64f5552c65c54a22b8e0bf0c",
+						"purchase"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

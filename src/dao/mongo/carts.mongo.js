@@ -3,8 +3,9 @@ import { productModel } from "./models/product.model.js";
 import { ticketModel } from "./models/ticket.model.js";
 import { getAmount } from "./../../utils/functions.utils.js";
 import UserDTO from "../../dto/user.dto.js";
-import sendEmail from "../../utils/email.utils.js";
-/* import logger from "../../utils/logger.util.js"; */
+import { sendTicketEmail } from "../../utils/email.utils.js";
+import { sendTicketMessage } from "../../utils/message.utils.js";
+import logger from "../../utils/logger.util.js";
 
 class CartsMongoDAO {
   constructor() {}
@@ -39,13 +40,17 @@ class CartsMongoDAO {
     }
   }
 
-  async createProductDao(cid, pid) {
+  async createProductDao(req, res, cid, pid) {
     try {
+      const { user } = req.session;
       const cart = await cartModel.findById(cid);
       if (!cart) return `No cart found with ID '${cid}'.`;
 
       const product = await productModel.findById(pid);
       if (!product) return `No product found with ID '${pid}'.`;
+
+      if (user.email == product.owner)
+        return `Can't add a product created by you.`;
 
       const productInCart = cart.products.find(
         (item) => item._id.toString() === product.id
@@ -74,24 +79,36 @@ class CartsMongoDAO {
     }
   }
 
-  async updateCartDao(cid, newCart) {
+  async updateCartDao(req, res, cid, newCart) {
     try {
+      const { user } = req.session;
       const cart = await cartModel.findById(cid);
       if (!cart) return `No cart found with ID '${cid}'.`;
 
       for (const product of newCart) {
+        const existProduct = await productModel.findById(product._id);
+        if (!existProduct) {
+          logger.warn(`Product ${product._id} doesn't exist.`);
+          continue;
+        }
+
+        if (user.email == existProduct.owner) {
+          logger.warn(
+            `Can't add the product with ID '${product._id}' because was created by you.`
+          );
+          continue;
+        }
+
         if (product.quantity < 1) {
-          console.log(
+          logger.warn(
             `'${product.quantity}' is an invalid value for quantity, new value was setted on '1'`
           );
           product.quantity = 1;
         }
 
-        const existProduct = await productModel.findById(product._id);
-
         if (existProduct && existProduct.stock < product.quantity) {
           product.quantity = existProduct.stock;
-          console.log(
+          logger.warn(
             `Insuficient stock, new quantity setted on max stock: '${existProduct.stock}'`
           );
         }
@@ -144,7 +161,7 @@ class CartsMongoDAO {
 
       if (newQuantity > product.stock) {
         newQuantity = product.stock;
-        console.log(
+        logger.warn(
           `Insuficient stock, new quantity setted on max stock: '${product.stock}'`
         );
       }
@@ -214,7 +231,7 @@ class CartsMongoDAO {
         const productQuantity = product.quantity;
 
         if (existProduct && productStock < productQuantity) {
-          console.log(`There's not enough stock for product '${productId}'`);
+          logger.warn(`No enough stock for product '${productId}'`);
           continue;
         }
 
@@ -255,7 +272,8 @@ class CartsMongoDAO {
         purchaser,
       };
 
-      await sendEmail(ticket);
+      await sendTicketEmail(ticket);
+      await sendTicketMessage(ticket);
       const createdTicket = await ticketModel.create(ticket);
       if (!createdTicket)
         return `The following products could not be purchased: ${products}`;

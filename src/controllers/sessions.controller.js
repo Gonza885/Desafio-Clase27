@@ -64,3 +64,47 @@ export const logout = async (req, res) => {
     return res.status(500).json({ status: "error", error: err.message });
   }
 };
+
+export const restore = async (req, res) => {
+  try {
+    const payload = await sessionsRepository.getRestore(req, res);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.redirect("/");
+  } catch (err) {
+    return res.status(500).json({ status: "error", error: err.message });
+  }
+};
+
+export const restoreCallback = async (req, res) => {
+  try {
+    const payload = await sessionsRepository.getRestoreCallback(req, res);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.redirect("/");
+  } catch (err) {
+    return res.status(500).json({ status: "error", error: err.message });
+  }
+};
+
+export const premium = async (req, res) => {
+  try {
+    const payload = await sessionsRepository.getPremium(req, res);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.redirect("/");
+  } catch (err) {
+    return res.status(500).json({ status: "error", error: err.message });
+  }
+};
+
+export const user = async (req, res) => {
+  try {
+    const payload = await sessionsRepository.getUser(req, res);
+    if (typeof payload == "string")
+      return res.status(404).json({ status: "error", message: payload });
+    return res.redirect("/");
+  } catch (err) {
+    return res.status(500).json({ status: "error", error: err.message });
+  }
+};

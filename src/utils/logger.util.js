@@ -21,7 +21,8 @@ const customLevelOptions = {
 };
 
 dotenv.config();
-const environment = process.env.NODE_ENV;
+let environment = process.env.NODE_ENV;
+if (!environment) environment = "development";
 let logger;
 
 if (environment.trim() == "production") {

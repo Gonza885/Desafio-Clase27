@@ -10,19 +10,22 @@ import {
   clearProduct,
   purchase,
 } from "../controllers/carts.controller.js";
-
 import roleAuth from "../middlewares/role.middleware.js";
 
 const router = Router();
 
-router.get("/", carts);
-router.get("/:cid", cart);
-router.post("/", roleAuth("admin"), insertCart);
-router.post("/:cid/product/:pid", roleAuth("user"), insertProduct);
-router.put("/:cid", roleAuth("user"), editCart);
-router.put("/:cid/product/:pid", roleAuth("user"), editProduct);
-router.delete("/:cid", roleAuth("user"), clearCart);
-router.delete("/:cid/product/:pid", roleAuth("user"), clearProduct);
-router.post("/:cid/purchase", roleAuth("user"), purchase);
+router.get("/", roleAuth("admin"), carts);
+router.get("/:cid", roleAuth(["admin", "premium", "user"]), cart);
+router.post("/", roleAuth(["admin", "premium"]), insertCart);
+router.post("/:cid/product/:pid", roleAuth(["premium", "user"]), insertProduct);
+router.put("/:cid", roleAuth(["premium", "user"]), editCart);
+router.put("/:cid/product/:pid", roleAuth(["premium", "user"]), editProduct);
+router.delete("/:cid", roleAuth(["premium", "user"]), clearCart);
+router.delete(
+  "/:cid/product/:pid",
+  roleAuth(["premium", "user"]),
+  clearProduct
+);
+router.post("/:cid/purchase", roleAuth(["premium", "user"]), purchase);
 
 export default router;

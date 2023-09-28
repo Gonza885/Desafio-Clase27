@@ -1,0 +1,75 @@
+{
+	"info": {
+		"_postman_id": "f65238c4-67e5-488a-b6aa-1bcd9c49cac8",
+		"name": "Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27426307"
+	},
+	"item": [
+		{
+			"name": "Logs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/tests/logs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tests",
+						"logs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Simple operation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/tests/operation/simple",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tests",
+						"operation",
+						"simple"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Complex operation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/tests/operation/complex",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tests",
+						"operation",
+						"complex"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

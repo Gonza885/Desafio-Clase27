@@ -25,7 +25,12 @@ export const product = async (req, res) => {
 
 export const insertProduct = async (req, res) => {
   try {
-    const newProduct = req.body;
+    const productInfo = req.body;
+    const { user } = req.session;
+    const newProduct = {
+      ...productInfo,
+      owner: user.email,
+    };
     const payload = await productsRepository.createProduct(newProduct);
     if (typeof payload == "string")
       return res.status(404).json({ status: "error", message: payload });
@@ -38,7 +43,6 @@ export const insertProduct = async (req, res) => {
 export const editProduct = async (req, res) => {
   try {
     const { pid } = req.params;
-    mock;
     const newProduct = req.body;
     const payload = await productsRepository.updateProduct(pid, newProduct);
     if (typeof payload == "string")
@@ -52,7 +56,7 @@ export const editProduct = async (req, res) => {
 export const eraseProduct = async (req, res) => {
   try {
     const { pid } = req.params;
-    const payload = await productsRepository.deleteProduct(pid);
+    const payload = await productsRepository.deleteProduct(req, res, pid);
     if (typeof payload == "string")
       return res.status(404).json({ status: "error", message: payload });
     return res.status(200).json({ status: "success", products: payload });

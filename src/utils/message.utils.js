@@ -1,11 +1,11 @@
 import twilio from "twilio";
-import config from "../config/environment.config.js";
+import config from "../config/enviroment.config.js";
 
 const ACCOUNT_SID = config.ACCOUNT_SID;
 const AUTH_TOKEN = config.AUTH_TOKEN;
 const client = twilio(ACCOUNT_SID, AUTH_TOKEN);
 
-const sendMessage = async (ticket) => {
+export const sendTicketMessage = async (ticket) => {
   try {
     const userPhone = ticket.purchaser.phone;
     if (!userPhone) return `User doesn't have a phone to send the message.`;
@@ -23,5 +23,3 @@ const sendMessage = async (ticket) => {
     return `${err}`;
   }
 };
-
-export default sendMessage;

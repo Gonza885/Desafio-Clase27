@@ -54,6 +54,38 @@ class SessionsRepository {
       return `${error}`;
     }
   }
+
+  async getRestore(req, res) {
+    try {
+      return await this.dao.getRestoreDao(req, res);
+    } catch (error) {
+      return `${error}`;
+    }
+  }
+
+  async getRestoreCallback(req, res) {
+    try {
+      return await this.dao.getRestoreCallbackDao(req, res);
+    } catch (error) {
+      return `${error}`;
+    }
+  }
+
+  async getPremium(req, res) {
+    try {
+      return await this.dao.getPremiumDao(req, res);
+    } catch (error) {
+      return `${error}`;
+    }
+  }
+
+  async getUser(req, res) {
+    try {
+      return await this.dao.getUserDao(req, res);
+    } catch (error) {
+      return `${error}`;
+    }
+  }
 }
 
 export default SessionsRepository;

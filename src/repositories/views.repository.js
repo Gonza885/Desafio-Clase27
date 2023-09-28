@@ -58,6 +58,14 @@ class ViewsRepository {
       return `${error}`;
     }
   }
+
+  async getRestore(req, res) {
+    try {
+      return await this.dao.getRestoreDao(req, res);
+    } catch (error) {
+      return `${error}`;
+    }
+  }
 }
 
 export default ViewsRepository;
