@@ -17,7 +17,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
 
 const mongoUrl = config.MONGO_URL;
-const mongoSessionSecret = config.MONGO_URL;
+const mongoSessionSecret = config.MONGO_SESSION_SECRET;
 const cookieSecret = config.COOKIE_SECRET;
 const PORT = config.PORT;
 const HOST = config.HOST;

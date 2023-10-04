@@ -2,9 +2,10 @@ import twilio from "twilio";
 import config from "../config/enviroment.config.js";
 import logger from "./logger.util.js";
 
-const ACCOUNT_SID = config.ACCOUNT_SID;
-const AUTH_TOKEN = config.AUTH_TOKEN;
-const client = twilio(ACCOUNT_SID, AUTH_TOKEN);
+const TWILIO_ACCOUNT_SID = config.TWILIO_ACCOUNT_SID;
+const TWILIO_AUTH_TOKEN = config.AUTH_TOKEN; // Nota que aquí usamos AUTH_TOKEN, no TWILIO_AUTH_TOKEN
+
+const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 try {
   await client.messages.create({
