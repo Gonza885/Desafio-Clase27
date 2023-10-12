@@ -17,7 +17,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
 
 const mongoUrl = config.MONGO_URL;
-const mongoSessionSecret = config.MONGO_SESSION_SECRET;
+const mongoSessionSecret = config.MONGO_URL;
 const cookieSecret = config.COOKIE_SECRET;
 const PORT = config.PORT;
 const HOST = config.HOST;
@@ -36,47 +36,43 @@ const swaggerOptions = {
 };
 const specs = swaggerJSDoc(swaggerOptions);
 
-const initializeApp = () => {
-  const app = express();
-  initializePassport();
+const app = express();
+initializePassport();
 
-  logger.info("Iniciando la aplicación");
+app.use(
+  session({
+    store: MongoStore.create({ mongoUrl }),
+    secret: mongoSessionSecret,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(
+  compression({
+    brotli: {
+      enable: true,
+      zlib: {},
+    },
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+app.engine("handlebars", handlebars.engine());
+app.set("views", __dirname + "/views");
+app.set("view engine", "handlebars");
+app.use(express.static(__dirname + "/public"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(cookieSecret));
+app.use(morgan("dev"));
+app.use(cors());
+app.use("/docs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
-  app.use(
-    session({
-      store: MongoStore.create({ mongoUrl }),
-      secret: mongoSessionSecret,
-      resave: false,
-      saveUninitialized: false,
-    })
-  );
-  app.use(
-    compression({
-      brotli: {
-        enable: true,
-        zlib: {},
-      },
-    })
-  );
-  app.use(passport.initialize());
-  app.use(passport.session());
-  app.engine("handlebars", handlebars.engine());
-  app.set("views", __dirname + "/views");
-  app.set("view engine", "handlebars");
-  app.use(express.static(__dirname + "/public"));
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-  app.use(cookieParser(cookieSecret));
-  app.use(morgan("dev"));
-  app.use(cors());
-  app.use("/docs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+const httpServer = app.listen(PORT, HOST, () => {
+  logger.info(`Server up on http://${HOST}:${PORT}`);
+});
+setupSocket(httpServer);
 
-  const httpServer = app.listen(PORT, HOST, () => {
-    logger.info(`Server up on http://${HOST}:${PORT}`);
-  });
-  setupSocket(httpServer);
+router(app);
 
-  router(app);
-};
-
-initializeApp();
+export default app;
