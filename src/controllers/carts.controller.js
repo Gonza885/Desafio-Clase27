@@ -15,8 +15,13 @@ export const cart = async (req, res) => {
   try {
     const { cid } = req.params;
     const payload = await cartsRepository.getCart(cid);
-    if (typeof payload == "string")
-      return res.status(404).json({ status: "error", message: payload });
+
+    if (!payload) {
+      return res
+        .status(404)
+        .json({ status: "error", message: "Cart not found" });
+    }
+
     return res.status(200).json({ status: "success", cart: payload });
   } catch (err) {
     return res.status(500).json({ status: "error", error: err.message });
@@ -34,12 +39,15 @@ export const insertCart = async (req, res) => {
   }
 };
 
+// ... Importaciones y código anterior ...
+
 export const insertProduct = async (req, res) => {
   try {
     const { cid, pid } = req.params;
-    const payload = await cartsRepository.createProduct(req, res, cid, pid);
-    if (typeof payload == "string")
+    const payload = await cartsRepository.createProduct(cid, pid);
+    if (typeof payload === "string") {
       return res.status(404).json({ status: "error", message: payload });
+    }
     return res.status(200).json({ status: "success", cart: payload });
   } catch (err) {
     return res.status(500).json({ status: "error", error: err.message });
@@ -50,9 +58,10 @@ export const editCart = async (req, res) => {
   try {
     const { cid } = req.params;
     const newCart = req.body;
-    const payload = await cartsRepository.updateCart(req, res, cid, newCart);
-    if (typeof payload == "string")
+    const payload = await cartsRepository.updateCart(cid, newCart);
+    if (typeof payload === "string") {
       return res.status(404).json({ status: "error", message: payload });
+    }
     return res.status(200).json({ status: "success", cart: payload });
   } catch (err) {
     return res.status(500).json({ status: "error", error: err.message });
@@ -64,8 +73,9 @@ export const editProduct = async (req, res) => {
     const { cid, pid } = req.params;
     const { quantity } = req.body;
     const payload = await cartsRepository.updateProduct(cid, pid, quantity);
-    if (typeof payload == "string")
+    if (typeof payload === "string") {
       return res.status(404).json({ status: "error", message: payload });
+    }
     return res.status(200).json({ status: "success", cart: payload });
   } catch (err) {
     return res.status(500).json({ status: "error", error: err.message });

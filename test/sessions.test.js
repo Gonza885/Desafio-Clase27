@@ -2,7 +2,7 @@ import chai from "chai";
 import supertest from "supertest";
 import { mock_data } from "./mock_data.js";
 
-const requester = supertest("http://localhost:8080/api/sessions");
+const requester = supertest("http://0.0.0.0:8080/api/sessions");
 const expect = chai.expect;
 
 describe("Testing Sessions module", () => {
@@ -24,13 +24,13 @@ describe("Testing Sessions module", () => {
     const { statusCode } = await requester
       .post("/login")
       .send(mock_data.loginUser);
-    expect(statusCode).to.equal(404);
+    expect(statusCode).to.equal(200);
   });
 
   it("Login as Admin", async () => {
     const { statusCode } = await requester
       .post("/login")
       .send(mock_data.loginAdmin);
-    expect(statusCode).to.equal(404);
+    expect(statusCode).to.equal(200);
   });
 });

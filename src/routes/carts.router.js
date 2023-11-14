@@ -1,3 +1,4 @@
+// cart.router.js
 import { Router } from "express";
 import {
   carts,
@@ -14,7 +15,7 @@ import roleAuth from "../middlewares/role.middleware.js";
 
 const router = Router();
 
-router.get("/", roleAuth("admin"), carts);
+router.get("/", roleAuth(["admin", "premium", "user"]), carts);
 router.get("/:cid", roleAuth(["admin", "premium", "user"]), cart);
 router.post("/", roleAuth(["admin", "premium"]), insertCart);
 router.post("/:cid/product/:pid", roleAuth(["premium", "user"]), insertProduct);

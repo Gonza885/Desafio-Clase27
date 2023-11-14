@@ -15,6 +15,7 @@ import initializePassport from "./config/passport.config.js";
 import logger from "./utils/logger.util.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
+import cartsRouter from "./routes/carts.router.js";
 
 const mongoUrl = config.MONGO_URL;
 const mongoSessionSecret = config.MONGO_URL;
@@ -67,6 +68,7 @@ app.use(cookieParser(cookieSecret));
 app.use(morgan("dev"));
 app.use(cors());
 app.use("/docs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+app.use("/carts", cartsRouter);
 
 const httpServer = app.listen(PORT, HOST, () => {
   logger.info(`Server up on http://${HOST}:${PORT}`);

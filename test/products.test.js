@@ -2,7 +2,7 @@ import chai from "chai";
 import supertest from "supertest";
 import { faker } from "@faker-js/faker/locale/es";
 
-const requester = supertest("http://localhost:8080/api/products");
+const requester = supertest("http://0.0.0.0:8080/api/products");
 const expect = chai.expect;
 
 describe("Testing Products module", () => {

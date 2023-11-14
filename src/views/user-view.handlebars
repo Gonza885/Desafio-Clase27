@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User View</title>
+</head>
+<body>
+    <h1>User View</h1>
+
+    <!-- Formulario para visualizar, modificar el rol y eliminar un usuario -->
+    <form action="/api/users/view" method="post">
+        <!-- Campo para seleccionar un usuario -->
+        <label for="userId">Seleccionar usuario:</label>
+        <select name="userId" id="userId">
+            {{#each users}}
+                <option value="{{this._id}}">{{this.first_name}} {{this.last_name}}</option>
+            {{/each}}
+        </select>
+
+        <!-- Campo para mostrar la información del usuario seleccionado -->
+        <div id="userInfo">
+            <!-- La información del usuario seleccionado se llenará aquí mediante JavaScript -->
+        </div>
+
+        <!-- Campo para modificar el rol -->
+        <label for="userRole">Modificar Rol:</label>
+        <select name="userRole" id="userRole">
+            <option value="admin">Admin</option>
+            <option value="premium">Premium</option>
+            <option value="user">User</option>
+        </select>
+
+        <!-- Botón para enviar el formulario y actualizar el usuario -->
+        <button type="submit">Actualizar Usuario</button>
+
+        <!-- Botón para eliminar el usuario -->
+        <button type="submit" name="action" value="delete">Eliminar Usuario</button>
+    </form>
+
+    <script>
+        // Función para cargar la información del usuario seleccionado
+        document.getElementById('userId').addEventListener('change', function () {
+            // Lógica para cargar la información del usuario seleccionado
+            // Puedes hacer una solicitud AJAX a tu API para obtener los detalles del usuario
+            // y actualizar el contenido del div #userInfo
+        });
+    </script>
+</body>
+</html>

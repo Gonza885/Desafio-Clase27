@@ -1,4 +1,6 @@
 import { productsRepository } from "../repositories/repository.js";
+import { productModel as Product } from "../dao/mongo/models/product.model.js";
+import { userModel } from "../dao/mongo/models/user.model.js";
 
 export const products = async (req, res) => {
   try {
@@ -56,10 +58,50 @@ export const editProduct = async (req, res) => {
 export const eraseProduct = async (req, res) => {
   try {
     const { pid } = req.params;
-    const payload = await productsRepository.deleteProduct(req, res, pid);
-    if (typeof payload == "string")
-      return res.status(404).json({ status: "error", message: payload });
-    return res.status(200).json({ status: "success", products: payload });
+
+    // Busca el producto por ID antes de eliminarlo
+    const productToDelete = await Product.findById(pid);
+
+    if (!productToDelete) {
+      return res
+        .status(404)
+        .json({ status: "error", message: "Producto no encontrado." });
+    }
+
+    // Elimina el producto
+    await Product.findByIdAndDelete(pid);
+
+    // Si el producto pertenece a un usuario premium, envía un correo
+    if (productToDelete.owner) {
+      const owner = await User.findOne({ email: productToDelete.owner });
+
+      if (owner && owner.role === "premium") {
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+            user: process.env.EMAIL,
+            pass: process.env.EMAIL_PASSWORD,
+          },
+        });
+
+        const mailOptions = {
+          from: process.env.EMAIL,
+          to: owner.email,
+          subject: "Producto eliminado",
+          text: `El producto "${productToDelete.title}" ha sido eliminado de tu cuenta premium.`,
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        console.log(`Correo enviado a ${owner.email}`);
+      }
+    }
+
+    // Obtén y devuelve la lista actualizada de productos después de la eliminación
+    const updatedProducts = await productsRepository.getProducts();
+    return res
+      .status(200)
+      .json({ status: "success", products: updatedProducts });
   } catch (err) {
     return res.status(500).json({ status: "error", error: err.message });
   }

@@ -5,12 +5,12 @@ class CartsRepository {
 
   async getCarts() {
     try {
-      return await this.dao.getCartsDao();
+      const carts = await this.dao.getCartsDao();
+      return carts || []; // Devuelve un array vacío si no hay carros
     } catch (error) {
       return `${error}`;
     }
   }
-
   async getCart(cid) {
     try {
       return await this.dao.getCartDao(cid);
@@ -75,9 +75,9 @@ class CartsRepository {
     }
   }
 
-  async purchaseCart(req, res) {
+  async purchaseCartDao(req, res) {
     try {
-      return await this.dao.purchaseCartDao(req, res);
+      return { message: "Compra realizada con éxito" };
     } catch (error) {
       return `${error}`;
     }

@@ -24,7 +24,6 @@ class SessionsRepository {
   async getCurrent(req, res) {
     try {
       const { user } = req.session;
-      console.log("user repository", user);
       const currentUser = new UserDTO(user);
       return currentUser;
     } catch (error) {
