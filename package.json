@@ -46,10 +46,11 @@
     "test:carts": "mocha ./test/carts.test.js --timeout 10000",
     "test:products": "mocha ./test/products.test.js --timeout 10000",
     "test:sessions": "mocha ./test/sessions.test.js --timeout 10000",
-    "start": "SET NODE_ENV=production && nodemon ./src/app.js",
-    "start:local": "SET NODE_ENV=local && nodemon ./src/app.js",
-    "start:development": "SET NODE_ENV=development && nodemon ./src/app.js",
+    "start": "set NODE_ENV=production&& nodemon ./src/app.js",
+    "start:local": "set NODE_ENV=local&& nodemon ./src/app.js",
+    "start:development": "set NODE_ENV=development&& nodemon ./src/app.js",
     "start:docker": "nodemon ./src/app.js",
     "format": "prettier --write \"**/*.js\""
   }
+  
 }
