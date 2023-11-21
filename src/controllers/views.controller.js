@@ -52,6 +52,20 @@ export const chat = async (req, res) => {
   }
 };
 
+export const carts = async (req, res) => {
+  try {
+    // Lógica para obtener datos del carrito desde tu base de datos o fuente de datos
+    const cartData = await CartModel.find({
+      /* criterios de búsqueda */
+    });
+
+    // Renderizar la vista de carritos con los datos obtenidos
+    return res.status(200).render("carts", { carts: cartData });
+  } catch (err) {
+    return res.status(500).json({ status: "error", error: err.message });
+  }
+};
+
 export const products = async (req, res) => {
   try {
     const { user } = req.session;

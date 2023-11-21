@@ -6,11 +6,15 @@ const nodemailer = require("nodemailer");
 const getUsers = async (req, res) => {
   try {
     const users = await User.find({}, { first_name: 1, last_name: 1 });
-    res.render("user-view", { users });
+
+    // Devolver los usuarios como respuesta
+    res.status(200).json({ users });
   } catch (error) {
     res.status(500).json({ error: "Error al obtener usuarios." });
   }
 };
+
+module.exports = { getUsers };
 
 const cleanInactiveUsers = async (req, res) => {
   try {

@@ -8,7 +8,7 @@ const router = (app) => {
   app.use("/", views);
   app.use("/api/sessions", sessions);
   app.use("/api/products", products);
-  app.use("/carts", cartsRouter);
+  app.use("/api/carts", cartsRouter);
   app.use("/api/tests", tests);
 };
 

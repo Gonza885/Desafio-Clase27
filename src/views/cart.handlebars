@@ -1,30 +1,30 @@
+<!DOCTYPE html>
 <div class='cart-container'>
   <div class='cart-list'>
-    {{#each payload}}
+    {{#each cartItems}}
       <div class='cart-item'>
-        <p>{{this._id.title}}</p>
-        <p>${{this._id.price}}</p>
+        <p>{{this.title}}</p>
+        <p>${{this.price}}</p>
         <p>x{{this.quantity}}</p>
-        <p><strong>${{multiply this._id.price this.quantity}}</strong></p>
+        <p><strong>${{multiply this.price this.quantity}}</strong></p>
       </div>
     {{/each}}
 
     <div>
-      <p class='cart-total-text'>TOTAL: ${{getTotal payload}}</p>
-      <form action="/carts/purchase" method="post"> <!-- Cambié la acción aquí -->
-        <button type='submit' class='cart-total-button'>PURCHASE</button>
-      </form>
+      <p class='cart-total-text'>TOTAL: ${{getTotal cartItems}}</p>
+      <button class='cart-total-button'>PURCHASE</button>
     </div>
-
-    <form action="/carts" method="post" class='product-form' cart='{{cart}}' product='{{product._id}}'> <!-- Cambié la acción aquí -->
-      <input type='submit' value='Add to cart' class='product-button' />
-    </form>
-
-    <form action="/carts/cart" method="post" class='cart-form'> <!-- Cambié la acción aquí -->
-      <label>Total $</label>
-      <input type='text' value='{{getTotal payload}}' readonly />
-      <input type='submit' value='Send' class='login-button' />
-    </form>
   </div>
-</div>
 
+  <!-- Formulario para agregar producto al carrito -->
+  <form class='product-form' action='/agregar-al-carrito/{{product._id}}' method='POST'>
+    <input type='submit' value='Add to cart' class='product-button' />
+  </form>
+
+  <!-- Formulario para mostrar el total del carrito -->
+  <form class='cart-form'>
+    <label>Total $</label>
+    <input type='text' value='{{getTotal cartItems}}' readonly />
+    <input type='submit' value='Send' class='login-button' />
+  </form>
+</div>

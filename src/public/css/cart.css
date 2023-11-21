@@ -1,40 +1,80 @@
+/* Estilos para el contenedor principal del carrito */
 .cart-container {
-	display: flex;
-	flex-flow: column nowrap;
+	max-width: 600px; /* Ancho máximo del contenedor */
+	margin: 0 auto; /* Centrar horizontalmente */
 	padding: 20px;
-}
-
-.cart-list {
-	display: flex;
-	flex-flow: column nowrap;
-	text-align: center;
-	gap: 20px;
-	margin-inline: 20px;
-}
-
-.cart-item {
-	display: flex;
-	justify-content: space-around;
-	border-bottom: solid 2px black;
-	font-size: 20px;
-	padding: 20px;
-}
-
-.cart-total-text {
-	font-size: 20px;
-	font-weight: 600;
-	margin: 10px;
-}
-
-.cart-total-button {
-	font-size: 16px;
-	padding: 5px;
-	cursor: pointer;
-	background-color: black;
-	border: none;
-	color: white;
-	font-family: 'Comfortaa';
-	font-weight: 600;
+  }
+  
+  /* Estilos para la lista de productos dentro del carrito */
+  .cart-list {
+	border: 1px solid #ccc;
+	padding: 15px;
+	border-radius: 5px;
+	background-color: #f9f9f9;
+  }
+  
+  /* Estilos para cada ítem del carrito */
+  .cart-item {
+	margin-bottom: 10px;
 	padding: 10px;
-	border-radius: 10px;
-}
+	border-bottom: 1px solid #ddd;
+  }
+  
+  /* Estilos para el texto del total del carrito */
+  .cart-total-text {
+	font-weight: bold;
+	margin-top: 20px;
+  }
+  
+  /* Estilos para el botón de compra */
+  .cart-total-button {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+  }
+  
+  /* Estilos al pasar el ratón sobre el botón de compra */
+  .cart-total-button:hover {
+	background-color: #0056b3;
+  }
+  
+  /* Estilos para los formularios dentro del carrito */
+  .product-form,
+  .cart-form {
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+  }
+  
+  /* Estilos para los botones y campos de formulario */
+  .product-button,
+  .login-button {
+	padding: 8px 15px;
+	background-color: #28a745;
+	color: white;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+  }
+  
+  /* Estilos al pasar el ratón sobre los botones del formulario */
+  .product-button:hover,
+  .login-button:hover {
+	background-color: #218838;
+  }
+  
+  /* Estilos para el campo de texto del total del carrito */
+  .cart-form input[type='text'] {
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	margin-right: 10px;
+  }
+  
+
+  

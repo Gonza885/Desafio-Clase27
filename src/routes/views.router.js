@@ -7,6 +7,7 @@ import {
   products,
   product,
   cart,
+  carts,
   restore,
 } from "../controllers/views.controller.js";
 
@@ -20,6 +21,7 @@ router.get("/register", register);
 router.get("/chat", chat);
 router.get("/products", products);
 router.get("/product/:pid", product);
+router.get("/cart", carts);
 router.get("/cart/:cid", cart);
 router.get("/restore", roleAuth("user"), restore);
 

@@ -5,19 +5,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User View</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        select,
+        button {
+            margin-bottom: 15px;
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <h1>User View</h1>
 
     <!-- Formulario para visualizar, modificar el rol y eliminar un usuario -->
-    <form action="/api/users/view" method="post">
+    <form id="userForm" action="/api/users/view" method="post">
         <!-- Campo para seleccionar un usuario -->
         <label for="userId">Seleccionar usuario:</label>
-        <select name="userId" id="userId">
-            {{#each users}}
-                <option value="{{this._id}}">{{this.first_name}} {{this.last_name}}</option>
-            {{/each}}
-        </select>
+        <select name="userId" id="userId"></select>
 
         <!-- Campo para mostrar la información del usuario seleccionado -->
         <div id="userInfo">
@@ -41,11 +82,29 @@
 
     <script>
         // Función para cargar la información del usuario seleccionado
-        document.getElementById('userId').addEventListener('change', function () {
-            // Lógica para cargar la información del usuario seleccionado
-            // Puedes hacer una solicitud AJAX a tu API para obtener los detalles del usuario
-            // y actualizar el contenido del div #userInfo
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetch('/api/users');
+                const { users } = await response.json();
+
+                const select = document.getElementById('userId');
+                users.forEach(user => {
+                    const option = document.createElement('option');
+                    option.value = user._id;
+                    option.textContent = `${user.first_name} ${user.last_name}`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error al obtener usuarios:', error);
+            }
         });
+
+        // Aquí podrías añadir la lógica para actualizar la información del usuario seleccionado
+        // cuando se cambia la selección en el dropdown #userId
+        // ...
+
+        // Lógica para enviar el formulario y actualizar el usuario
+        // ...
     </script>
 </body>
 </html>

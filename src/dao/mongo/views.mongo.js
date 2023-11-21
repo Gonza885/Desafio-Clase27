@@ -1,5 +1,5 @@
 import { productModel } from "./models/product.model.js";
-import { cartModel } from "./models/cart.model.js";
+import cartModel from "./models/cart.model.js";
 import {
   validatePage,
   validateLimit,
@@ -156,10 +156,7 @@ class ViewsMongoDAO {
   async getCartDao(req, res) {
     try {
       const { cid } = req.params;
-      const cart = await cartModel
-        .findById(cid)
-        .populate("products._id")
-        .lean();
+      const cart = await cartModel.findById(cid).lean();
       if (!cart) return `No cart found with ID '${cid}'`;
 
       const payload = {
@@ -176,6 +173,39 @@ class ViewsMongoDAO {
       return payload;
     } catch (error) {
       return `${error}`;
+    }
+  }
+  async getCartsDao(req, res) {
+    try {
+      const carts = await cartModel.find().lean();
+
+      if (!carts || carts.length === 0) {
+        return { status: "error", message: "No carts found" };
+      }
+
+      const payload = {
+        header: true,
+        style: "cart.css",
+        documentTitle: "Cart",
+        helpers: {
+          multiply,
+          getTotal,
+        },
+        carts: carts.map((cart) => ({
+          cartId: cart._id,
+          products: cart.products.map((product) => ({
+            title: product.title,
+            price: product.price,
+            quantity: product.quantity,
+            total: multiply(product.price, product.quantity),
+          })),
+          total: getTotal(cart.products),
+        })),
+      };
+
+      return { status: "success", payload };
+    } catch (error) {
+      return { status: "error", message: error.message };
     }
   }
 

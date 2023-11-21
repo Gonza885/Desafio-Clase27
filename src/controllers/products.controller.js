@@ -1,6 +1,26 @@
 import { productsRepository } from "../repositories/repository.js";
 import { productModel as Product } from "../dao/mongo/models/product.model.js";
-import { userModel } from "../dao/mongo/models/user.model.js";
+import Cart from "../dao/mongo/models/cart.model.js";
+
+export const addToCart = async (req, res) => {
+  const { productId } = req.body;
+
+  try {
+    const cart = await cartModel.findOneAndUpdate(
+      // Encuentra el carrito basado en el usuario o alguna identificación única
+      {
+        /* criterio de búsqueda para el carrito del usuario */
+      },
+      { $addToSet: { products: { _id: productId, quantity: 1 } } }, // Añade el producto al carrito
+      { new: true, upsert: true }
+    );
+
+    // Después de agregar, redirige a la página de carrito o envía una respuesta JSON
+    res.redirect("/cart"); // Esto redirigirá a la vista del carrito
+  } catch (error) {
+    res.status(500).json({ error: "Could not add product to cart" });
+  }
+};
 
 export const products = async (req, res) => {
   try {

@@ -3,13 +3,24 @@ import mongoose from "mongoose";
 const cartSchema = new mongoose.Schema({
   products: [
     {
-      _id: {
+      productId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Products",
+        ref: "Product", // Referencia al modelo de Product
+        required: true,
       },
-      quantity: Number,
+      quantity: {
+        type: Number,
+        default: 1,
+      },
     },
   ],
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // Referencia al modelo de User, si es aplicable
+    required: true,
+  },
 });
 
-export const cartModel = mongoose.model("Carts", cartSchema);
+const Cart = mongoose.model("Cart", cartSchema);
+
+export default Cart;

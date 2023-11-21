@@ -17,3 +17,31 @@ productsForm.forEach((productForm) => {
       .catch((err) => logger.error(`Catch error: ${err}`));
   });
 });
+
+// Manejador de eventos para agregar productos al carrito
+document.querySelectorAll(".product-form").forEach((form) => {
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const productId = form.getAttribute("product");
+
+    try {
+      const response = await fetch("/add-to-cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productId }),
+      });
+
+      if (response.ok) {
+        // Mostrar mensaje de éxito o actualizar la UI
+        console.log("Producto agregado al carrito");
+      } else {
+        // Manejar errores
+        console.error("Error al agregar producto al carrito");
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+    }
+  });
+});

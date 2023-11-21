@@ -16,6 +16,9 @@ import logger from "./utils/logger.util.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
 import cartsRouter from "./routes/carts.router.js";
+import exphbs from "express-handlebars";
+import * as helpers from "./utils/functions.utils.js";
+import path from "path";
 
 const mongoUrl = config.MONGO_URL;
 const mongoSessionSecret = config.MONGO_URL;
@@ -56,12 +59,65 @@ app.use(
     },
   })
 );
+
+// Ruta para renderizar la vista del carrito
+app.get("/cart", async (req, res) => {
+  try {
+    // Aquí deberías obtener los datos del carrito (cartData) desde tu lógica o base de datos
+    const cartData = {}; // Reemplaza esto con tu lógica para obtener los datos del carrito
+    res.render("cart", { cart: cartData }); // Renderiza la vista del carrito con los datos obtenidos
+  } catch (error) {
+    res.status(500).send("Error al renderizar la vista del carrito");
+  }
+});
+
+app.post("/add-to-cart", async (req, res) => {
+  try {
+    const productId = req.body.productId; // Obtener el ID del producto desde la solicitud
+
+    // Lógica para agregar el producto al carrito utilizando la función addToCart del controlador
+    const cartData = await addToCart(productId); // Llama a la función y pasa el productId
+
+    // Si la adición al carrito fue exitosa, renderiza la vista del carrito con los productos actualizados
+    res.render("cart", { cart: cartData }); // Renderiza la vista del carrito con los datos obtenidos
+  } catch (error) {
+    res.status(500).send("Error al agregar producto al carrito");
+  }
+});
+
+app.get("/user-view", (req, res) => {
+  // Aquí renderizas la vista que mostraste anteriormente
+  res.render("user-view"); // Asegúrate de tener la plantilla 'user-view.handlebars' en tu directorio de vistas
+});
+
+app.post("/api/users/view", async (req, res) => {
+  const { userId, userRole, action } = req.body;
+
+  // Lógica para actualizar el rol del usuario según el 'userId' y el 'userRole'
+  // Reemplaza la lógica con tu propia función para actualizar el rol del usuario
+
+  // Ejemplo de lógica usando una función 'updateUserRole' (debes implementarla)
+  try {
+    await updateUserRole(userId, userRole); // Esta función actualiza el rol del usuario
+    res.redirect("/user-view"); // Redirecciona después de la actualización
+  } catch (error) {
+    res.status(500).send("Error al actualizar el rol del usuario");
+  }
+});
+
 app.use(passport.initialize());
 app.use(passport.session());
-app.engine("handlebars", handlebars.engine());
+app.engine(
+  "handlebars",
+  exphbs.engine({
+    helpers: helpers,
+    defaultLayout: "main",
+  })
+);
+
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(cookieSecret));

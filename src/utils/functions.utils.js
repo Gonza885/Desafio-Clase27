@@ -1,4 +1,4 @@
-import { cartModel } from "../dao/mongo/models/cart.model.js";
+import cartModel from "../dao/mongo/models/cart.model.js";
 import cartsDao from "../dao/memory/carts.memory.js";
 
 export function validatePage(page) {
@@ -33,10 +33,21 @@ export function multiply(a, b) {
 }
 
 export function getTotal(items) {
+  // Add a check for null or undefined items
+  if (!items || typeof items !== "object") {
+    return 0; // Or handle the scenario appropriately
+  }
+
+  // Convert the object into an iterable array
+  const itemsArray = Object.keys(items);
+
   let total = 0;
-  for (const item of items) {
+  for (const itemKey of itemsArray) {
+    const item = items[itemKey]; // Get the item from the object using its key
+
     total += item._id.price * item.quantity;
   }
+
   return total;
 }
 

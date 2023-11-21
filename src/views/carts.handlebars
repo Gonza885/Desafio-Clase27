@@ -1,0 +1,30 @@
+<div class='cart-container'>
+  <div class='cart-list'>
+    {{#each payload}}
+      <div class='cart-item'>
+        <p>{{this.cartId}}</p>
+        {{#each this.products}}
+          <div class='cart-item'>
+            <p>{{this.title}}</p>
+            <p>${{this.price}}</p>
+            <p>x{{this.quantity}}</p>
+            <p><strong>${{multiply this.price this.quantity}}</strong></p>
+          </div>
+        {{/each}}
+        <!-- Agrega aquí otros campos del carrito según sea necesario -->
+      </div>
+    {{/each}}
+
+    <div>
+      <p class='cart-total-text'>TOTAL: ${{getTotalForCarts payload}}</p>
+      <button class='cart-total-button'>PURCHASE</button>
+    </div>
+
+    <!-- Agrega otros elementos según sea necesario -->
+  </div>
+</div>
+<script>
+      const function getTotalForCarts(products) {
+	return products.reduce((acc, product) => acc + (product.price * product.quantity), 0);
+  }
+</script>

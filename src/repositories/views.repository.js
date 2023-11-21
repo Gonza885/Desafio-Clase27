@@ -58,6 +58,13 @@ class ViewsRepository {
       return `${error}`;
     }
   }
+  async getCarts(req, res) {
+    try {
+      return await this.dao.getCartsDao(req, res);
+    } catch (error) {
+      return `${error}`;
+    }
+  }
 
   async getRestore(req, res) {
     try {

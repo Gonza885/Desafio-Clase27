@@ -1,4 +1,5 @@
 import { sessionsRepository } from "../repositories/repository.js";
+import roleAuth from "../middlewares/role.middleware.js";
 
 export const login = async (req, res) => {
   try {
